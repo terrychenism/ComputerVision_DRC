@@ -1,5 +1,6 @@
 /* reference: 
 http://seiya-kumada.blogspot.com/2013/03/k-means-clustering.html
+http://blog.csdn.net/heavendai/article/details/7029465
 */
 
 #include <cv.h>
