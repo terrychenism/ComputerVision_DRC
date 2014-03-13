@@ -171,6 +171,8 @@ vector<Rect> detectAndDraw( Mat& img, CascadeClassifier& cascade,
 
 void resizeandtogray(char* dir,int K, vector<Mat> &images, vector<int> &labels,vector<Mat> &testimages, vector<int> &testlabels)
 {
+	cout<<images.size()<<endl;
+	cout<<testimages.size()<<endl;
 	IplImage* standard = cvLoadImage("C:\\Users\\Terry\\Desktop\\face\\2.jpg",CV_LOAD_IMAGE_GRAYSCALE);
 	string cur_dir;
 	char id[5];
@@ -210,6 +212,8 @@ void resizeandtogray(char* dir,int K, vector<Mat> &images, vector<int> &labels,v
 		}
 		cout<<file_vec.size()<<" images."<<endl;
 	}
+	cout<<images.size()<<endl;
+	cout<<testimages.size()<<endl;
 }
 
 Ptr<FaceRecognizer> Recognition(vector<Mat> images, vector<int> labels, vector<Mat> testimages, vector<int> testlabels)  
