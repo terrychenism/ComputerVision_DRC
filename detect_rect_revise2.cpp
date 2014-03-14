@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <ctime>
 #endif
 using namespace cv; 
 int thresh = 50;
@@ -17,7 +18,12 @@ IplImage* img1 = 0;
 CvMemStorage* storage = 0;
 CvPoint pt[4];
 const char* wndname = "Debri Detection";
- 
+clock_t  clockBegin, clockEnd; 
+
+void PrintfContainerElapseTime(char *pszContainerName, char *pszOperator, long lElapsetime)
+{
+	printf("%s 的 %s time %dsec\n", pszContainerName, pszOperator, lElapsetime/1000);
+}
 // helper function:
 // finds a cosine of angle between vectors
 // from pt0->pt1 and from pt0->pt2 
@@ -205,7 +211,12 @@ int main(int argc, char** argv)
         }
         img = cvCloneImage( img0 );
 		Mat image(img,0);
+
+		clockBegin = clock();
 		pyrMeanShiftFiltering(image,dst,spatialRad,colorRad,maxPryLevel);
+		clockEnd = clock();
+		PrintfContainerElapseTime("shift", "filter", clockEnd - clockBegin);
+			
 		//imshow("dst",dst);
 
 		// convert mat to IplImage 
@@ -214,7 +225,11 @@ int main(int argc, char** argv)
         cvNamedWindow( wndname, 1 );
         
         // force the image processing
-        on_trackbar(0);
+		clockBegin = clock();
+		on_trackbar(0);
+		clockEnd = clock();
+		PrintfContainerElapseTime("rect", "draw", clockEnd - clockBegin);
+        
 
         cvReleaseImage( &img0 );
 
