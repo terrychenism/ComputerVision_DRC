@@ -213,7 +213,9 @@ int main(int argc, char** argv)
 		Mat image(img,0);
 
 		clockBegin = clock();
-		pyrMeanShiftFiltering(image,dst,spatialRad,colorRad,maxPryLevel);
+		//pyrMeanShiftFiltering(image,dst,spatialRad,colorRad,maxPryLevel);
+		//medianBlur ( image,dst, 9);
+		GaussianBlur( image, dst, Size( 13,13 ), 0, 0 );
 		clockEnd = clock();
 		PrintfContainerElapseTime("shift", "filter", clockEnd - clockBegin);
 			
