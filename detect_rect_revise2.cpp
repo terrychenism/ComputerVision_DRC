@@ -22,7 +22,7 @@ clock_t  clockBegin, clockEnd;
 
 void PrintfContainerElapseTime(char *pszContainerName, char *pszOperator, long lElapsetime)
 {
-	printf("%s 的 %s time %dsec\n", pszContainerName, pszOperator, lElapsetime/1000);
+	printf("%s %s time %dsec\n", pszContainerName, pszOperator, lElapsetime/1000);
 }
 // helper function:
 // finds a cosine of angle between vectors
