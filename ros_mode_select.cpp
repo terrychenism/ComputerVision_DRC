@@ -28,8 +28,8 @@ poblic
 
     ModeSelect (ros::NodeHandle nh)
     {
-    	std::string r; //maybe int? 
-   		double s;
+    	std::string r; 
+   	double s;
 
     	double speed = nh.getParm("speed", s);
     	string res = nh.getParm("resolution", r);
