@@ -28,11 +28,11 @@ poblic
 
     ModeSelect (ros::NodeHandle nh)
     {
-    	std::string r; 
-   	double s;
+    	std::string r; //maybe int? 
+   		double s;
 
     	double speed = nh.getParm("speed", s);
-    	string res = nh.getParm("resolution", r);
+    	string reso = nh.getParm("resolution", r);
     }
 
     void setConf(const dynamic_reconfigure::Config& conf)
@@ -68,12 +68,12 @@ poblic
 	    
 	    setConf(conf);
 	}
-	void setHighMode(){
+	void setHighMode(string res, double speed){
 		setMotorSpeed(speed);
 		setResolution(res);
 	}
 
-	void setLowMode(){
+	void setLowMode(string res, double speed){
 		setMotorSpeed(speed);
 		setResolution(res);
 	}
