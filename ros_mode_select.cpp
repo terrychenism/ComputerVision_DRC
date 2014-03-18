@@ -24,15 +24,27 @@
 
 class ModeSelect{
 
-poblic 
+    double speed_low_, speed_high_;
+    string reso_low_, reso_high_;
+    dynamic_reconfigure::Config          conf_;
+
+public 
 
     ModeSelect (ros::NodeHandle nh)
     {
-    	std::string r; //maybe int? 
+    	std::string r; 
    		double s;
 
-    	double speed = nh.getParm("speed", s);
-    	string reso = nh.getParm("resolution", r);
+    	speed_low_ = nh.getParm("lowSpeed", s);
+    	reso_low_ = nh.getParm("lowResolution", r);
+
+    	speed_high_ = nh.getParm("highSpeed", s);
+    	reso_high_= nh.getParm("highResolution", r);
+
+    	//setHighMode();
+    	//setLowMode();
+
+    	//setConf(conf);
     }
 
     void setConf(const dynamic_reconfigure::Config& conf)
@@ -48,34 +60,36 @@ poblic
 	void setMotorSpeed(double radPerSec)
 	{
 	    dynamic_reconfigure::DoubleParameter double_param;
-	    dynamic_reconfigure::Config          conf;
+	   // dynamic_reconfigure::Config          conf;
 
 	    double_param.name  = "motor_speed";
 	    double_param.value = radPerSec;
 	    conf.doubles.push_back(double_param);
 
-	    setConf(conf);
+	    //setConf(conf);
 	}
 
 	void setResolution(const std::string& res)
 	{
 	    dynamic_reconfigure::StrParameter str_param;
-	    dynamic_reconfigure::Config       conf;
+	    //dynamic_reconfigure::Config       conf;
 
 	    str_param.name  = "resolution";
 	    str_param.value = res;
 	    conf.strs.push_back(str_param);
 	    
-	    setConf(conf);
+	    //setConf(conf);
 	}
-	void setHighMode(string res, double speed){
-		setMotorSpeed(speed);
-		setResolution(res);
+	void setHighMode(){
+		setMotorSpeed(speed_high_);
+		setResolution(reso_high_);
+		setConf(conf);
 	}
 
-	void setLowMode(string res, double speed){
-		setMotorSpeed(speed);
-		setResolution(res);
+	void setLowMode(){
+		setMotorSpeed(speed_low_);
+		setResolution(reso_low_);
+		setConf(conf);
 	}
 
 
