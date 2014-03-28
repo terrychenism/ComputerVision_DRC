@@ -30,7 +30,10 @@ imshow("first image",image2);
  
 if( !gray_image1.data || !gray_image2.data )
  { std::cout<< " --(!) Error reading images " << std::endl; return -1; }
- 
+
+
+//--------for first image use, we need to save the feature matrix--------------
+
 ////-- Step 1: Detect the keypoints using SURF Detector
 // int minHessian = 400;
 // 
@@ -92,12 +95,17 @@ if( !gray_image1.data || !gray_image2.data )
 //	 fs << "cameraMatrix" <<H;
 //
 //	 fs.release();
+//-----------------------------------------------------------------------------
+
+
+//------------- use the matrix to stitching------------------------------------
+
 	 FileStorage fs("matrix.txt", FileStorage::READ);
 
 	 Mat H;
 	 fs["cameraMatrix"] >> H;
 	 fs.release();
-
+//-----------------------------------------------------------------------------
 
 	 cv::Mat result;
 	 warpPerspective(image1,result,H,cv::Size(image1.cols+image2.cols,image1.rows));
