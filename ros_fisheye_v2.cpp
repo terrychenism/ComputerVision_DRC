@@ -266,13 +266,34 @@ int main(int argc, char *argv[])
 
   
   ros::NodeHandle nh;
+
+
+  std::string image_name("camera/image");
+  std::string proj_param("src/ros_fisheye_rectify/calib/calib_results_fisheye.txt");
+
+  if (!nh.getParam("image_name", image_name))
+    ROS_WARN("Parameter <%s> Not Set. Using Default Value of <%s>!",
+        "image_name", image_name.c_str());
+
+  if (!nh.getParam("proj_param", proj_param))
+    ROS_WARN("Parameter <%s> Not Set. Using Default Value of <%s>!",
+        "proj_param", proj_param.c_str());
+
   //drc_perception::MultisenseImage camera(nh);
   image_transport::ImageTransport camera(nh);
-  image_transport::Subscriber sub = camera.subscribe("camera/image", 1, imageCallback);
+  image_transport::Subscriber sub = camera.subscribe(image_name, 1, imageCallback);
 
   struct ocam_model o_cata; 
+
   //system("pwd");
-  get_ocam_model(&o, "src/ros_fisheye_rectify/calib/calib_results_fisheye.txt");
+  //get_ocam_model(&o, proj_param.c_str());
+  
+  char *param= new char[proj_param.length() + 1];
+  strcpy(param, proj_param.c_str());
+  delete [] param;
+  get_ocam_model(&o, param);
+
+
 
   int i;
   printf("pol =\n");    for (i=0; i<o.length_pol; i++){    printf("\t%e\n",o.pol[i]); };    printf("\n");
