@@ -1,4 +1,3 @@
-
 #include "fisheye.h"
 
 struct ocam_model o;
@@ -299,6 +298,8 @@ int main(int argc, char *argv[])
   cvReleaseMat(&mapx_persp);
   cvReleaseMat(&mapy_persp);  
 */
+
+
 
   return 0;
 }
