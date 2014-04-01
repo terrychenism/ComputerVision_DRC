@@ -18,7 +18,7 @@
 #define   M_PI      3.14159265358979323846
 
 using namespace cv;
-int sf = 1;
+int sf = 6;
 CvMat* mapx_persp1;
 CvMat* mapy_persp1;
 Mat src1 ;    
@@ -81,7 +81,7 @@ void world2cam(double point2D[2], double point3D[3], struct ocam_model *myocam_m
     NOTE: the coordinates of "point2D" and "center" are already according to the C
     convention, that is, start from 0 instead than from 1.
 ------------------------------------------------------------------------------*/
-void cam2world(double point3D[3], double point2D[2], struct ocam_model *myocam_model);
+//void cam2world(double point3D[3], double point2D[2], struct ocam_model *myocam_model);
 /*------------------------------------------------------------------------------
  Create Look Up Table for undistorting the image into a perspective image 
  It assumes the the final image plane is perpendicular to the camera axis
@@ -95,5 +95,5 @@ void create_perspecive_undistortion_LUT( CvMat *mapx, CvMat *mapy, struct ocam_m
  The region to undistorted in contained between Rmin and Rmax
  xc, yc are the row and column coordinates of the image center
 ------------------------------------------------------------------------------*/
-void create_panoramic_undistortion_LUT ( CvMat *mapx, CvMat *mapy, float Rmin, float Rmax, float xc, float yc );
 static void onTrackbar(int, void*);
+void rotate_image_90n(cv::Mat &src, cv::Mat &dst, int angle);
