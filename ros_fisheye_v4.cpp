@@ -258,15 +258,45 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
   }
 }
 
+
+//-------------main function--------------------------
 int main(int argc, char **argv)
 {
-      ros::init(argc, argv, "ros_opencv_example");
+    ros::init(argc, argv, "ros_opencv_example");
     //load an image from the raw image
     ros::NodeHandle nh;
-    image_transport::ImageTransport it(nh);
-    image_transport::Subscriber sub = it.subscribe("/sitcam/right/image_raw", 1, imageCallback);
+    //---------------
 
-    get_ocam_model(&o, "src/ros_fisheye_rectify/calib/calib_results_fisheye.txt");
+    std::string image_name("/sitcam/right/image_raw");
+
+    std::string proj_param("src/ros_fisheye_rectify/calib/calib_results_fisheye.txt");
+
+  if (!nh.getParam("image_name", image_name))
+    ROS_WARN("Parameter <%s> Not Set. Using Default Value of <%s>!",
+        "image_name", image_name.c_str());
+
+  if (!nh.getParam("proj_param", proj_param))
+    ROS_WARN("Parameter <%s> Not Set. Using Default Value of <%s>!",
+        "proj_param", proj_param.c_str());
+
+
+    //-----------------
+
+
+    image_transport::ImageTransport it(nh);
+    image_transport::Subscriber sub = it.subscribe(image_name, 1, imageCallback);
+
+
+
+    //get_ocam_model(&o, "src/ros_fisheye_rectify/calib/calib_results_fisheye.txt");
+    char *param= new char[proj_param.length() + 1];
+    strcpy(param, proj_param.c_str());
+    get_ocam_model(&o, param);
+    delete [] param;
+    
+  //--------------------------------
+
+
 
     int i;
     printf("pol =\n");    for (i=0; i<o.length_pol; i++){    printf("\t%e\n",o.pol[i]); };    printf("\n");
