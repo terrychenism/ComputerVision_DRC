@@ -23,13 +23,13 @@ int main( int argc, char** argv ){
    Mat src, warp_dst, warp_rotate_dst,dst;
 
 
-   img = imread( "l_undistorted_perspective.jpg", 1 );
-   Mat img2 =imread( "r_undistorted_perspective.jpg", 1 );
+   img = imread( "./image/l_undistorted_perspective.jpg", 1 );
+   Mat img2 =imread( "./image/r_undistorted_perspective.jpg", 1 );
     //double w = (double)img.cols;
     //double h = (double)img.rows;
     //double alpha = 0.5;
-int alpha_= 90., beta_= 90., gamma_=90.;
-    int f_ = 500, dist_ = 500,dx_ = -100, dy_= 0;
+int alpha_= 90., beta_= 130., gamma_=90.;
+    int f_ = 500, dist_ = 800,dx_ = -100, dy_= 0;
 
 
 Mat destination,destination2;
@@ -45,13 +45,13 @@ string tbarname6 = "Dx";
 string tbarname7 = "Dy";
 namedWindow(wndname1, 1);
 namedWindow(wndname2, 1);
- // createTrackbar(tbarname1, wndname1, &alpha_, 360);
- // createTrackbar(tbarname2, wndname1, &beta_, 360);
- // createTrackbar(tbarname3, wndname1, &gamma_, 360);
- // createTrackbar(tbarname4, wndname1, &f_, 2000);
- // createTrackbar(tbarname5, wndname1, &dist_, 2000);
- // createTrackbar(tbarname6, wndname1, &dx_, 2000);
- // createTrackbar(tbarname7, wndname1, &dy_, 2000);
+  //createTrackbar(tbarname1, wndname1, &alpha_, 360);
+  //createTrackbar(tbarname2, wndname1, &beta_, 360);
+  //createTrackbar(tbarname3, wndname1, &gamma_, 360);
+  //createTrackbar(tbarname4, wndname1, &f_, 2000);
+  //createTrackbar(tbarname5, wndname1, &dist_, 2000);
+  //createTrackbar(tbarname6, wndname1, &dx_, 2000);
+  //createTrackbar(tbarname7, wndname1, &dy_, 2000);
 
 
 
@@ -113,22 +113,22 @@ while(true) {
         0, f, h/2, 0,
         0, 0,   1, 0);
 
-    double a = 0.966, b=0.259,c=0.0,d=0.0;
+    double a = 0.966, b=0.259,c=-0.0,d=-0.0;
 
-    Mat TR = (Mat_<double>(4,4) <<
+    /*Mat TR = (Mat_<double>(4,4) <<
     	a*a+b*b-c*c-d*d, 2*b*c-2*a*d, 2*b*d+2*a*c, 0,
     	2*b*c+2*a*d, a*a-b*b+c*c-d*d, 2*c*d-2*a*b,0,
     	2*b*d-2*a*c,2*c*d+2*a*b, a*a-b*b-c*c+d*d,0,
-    	0,0,0,1);
+    	0,0,0,1);*/
 
-  //   double qw = 0.966, qx=0.259,qy=0.0,qz=0.0;
-  //   Mat TR = (Mat_<double>(4,4) <<
-		// 1 - 2*qy*qy - 2*qz*qz,	2*qx*qy - 2*qz*qw ,	2*qx*qz + 2*qy*qw,0,
-		// 2*qx*qy + 2*qz*qw ,	1 - 2*qx*qx- 2*qz*qz,	2*qy*qz - 2*qx*qw,0,
-		// 2*qx*qz - 2*qy*qw , 2*qy*qz + 2*qx*qw ,	1 - 2*qx*qx- 2*qy*qy,0,
-		// 0,0,0,1);
+     double qw = 0.966, qx=0.259,qy=0.0,qz=0.0;
+     Mat TR = (Mat_<double>(4,4) <<
+		 1 - 2*qy*qy - 2*qz*qz,	2*qx*qy - 2*qz*qw ,	2*qx*qz + 2*qy*qw,0,
+		 2*qx*qy + 2*qz*qw ,	1 - 2*qx*qx- 2*qz*qz,	2*qy*qz - 2*qx*qw,0,
+		 2*qx*qz - 2*qy*qw , 2*qy*qz + 2*qx*qw ,	1 - 2*qx*qx- 2*qy*qy,0,
+		 0,0,0,1);
 
-	Mat transfo = A2 *(T*(TR*A1));
+	Mat transfo = A2 *(T*(R*(TR*A1)));
 
     //Mat transfo = A2 * (T * (R * A1));
 
