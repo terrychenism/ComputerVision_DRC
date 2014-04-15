@@ -10,11 +10,11 @@ Mat img,img2;
 
 //---for left------------------------------
 int alpha_= 90., beta_= 180., gamma_=90.;
-int f_ = 456, dist_ = 210,dx_ = 666, dy_= 0;
+int f_ = 456, dist_ = 210,dx_ =682, dy_= 0;
 
 //for right--------------------------------
 int alpha2_= 90., beta2_= 0., gamma2_=90.;
-int f2_ = 767, dist2_ = 772,dx2_ = 183, dy2_= 0;
+int f2_ = 767, dist2_ = 772,dx2_ = 168, dy2_= 0;
 
 Mat destination,destination2;
 char* wndname1 = "left image";
@@ -164,8 +164,8 @@ void StitchImages()
 {
 	Mat result;
 
-	Mat image_left = imread( "./image/left.jpg", 1 );//l_undistorted_perspective
-	Mat image_right = imread("./image/right.jpg", 1 );
+	Mat image_left = destination ;
+	Mat image_right = destination2;
 
 	double qw = 0.966, qx=0.259,qy=0.0,qz=0.0;
     Mat TR = (Mat_<double>(4,4) <<
