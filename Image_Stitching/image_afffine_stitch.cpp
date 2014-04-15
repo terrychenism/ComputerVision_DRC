@@ -28,7 +28,7 @@ static void onTrackbar1(int, void*)
 	alpha = ((double)alpha_ - 90.)*CV_PI/180;
    beta = ((double)beta_ - 90.)*CV_PI/180;
    gamma = ((double)gamma_ - 90.)*CV_PI/180;
-       f = (double) f_;
+   f = (double) f_;
    dist = (double) dist_;
    dx = (double)dx_;
    dy = (double)dy_;
@@ -151,14 +151,56 @@ static void onTrackbar2(int, void*)
         0, 0,   1, 0);
 
 
-	Mat transfo = A2 *(T*(R*A1));
+	Mat transfo2 = A2 *(T*(R*A1));
 
- 
 
-    warpPerspective(img2, destination2, transfo, taille, INTER_CUBIC | WARP_INVERSE_MAP);
+
+    warpPerspective(img2, destination2, transfo2, taille, INTER_CUBIC | WARP_INVERSE_MAP);
   
 
     imshow(wndname2, destination2);
+}
+void StitchImages()
+{
+	Mat result;
+
+	Mat image_left = imread( "./image/left.jpg", 1 );//l_undistorted_perspective
+	Mat image_right = imread("./image/right.jpg", 1 );
+
+	double qw = 0.966, qx=0.259,qy=0.0,qz=0.0;
+    Mat TR = (Mat_<double>(4,4) <<
+		1 - 2*qy*qy - 2*qz*qz,	2*qx*qy - 2*qz*qw ,	2*qx*qz + 2*qy*qw,0,
+		2*qx*qy + 2*qz*qw ,	1 - 2*qx*qx- 2*qz*qz,	2*qy*qz - 2*qx*qw,0,
+		2*qx*qz - 2*qy*qw , 2*qy*qz + 2*qx*qw ,	1 - 2*qx*qx- 2*qy*qy,500,
+		0,0,0,1);
+	 Size taille = img.size();
+	 double w = (double)taille.width, h = (double)taille.height;
+    Mat A1 = (Mat_<double>(4,3) <<
+        1, 0, -w/2,
+        0, 1, -h/2,
+        0, 0,    0,
+        0, 0,    1);
+
+	Mat A2 = (Mat_<double>(3,4) <<
+        500, 0, w/2, 0,
+        0, 500, h/2, 0,
+        0, 0,   1, 0);
+
+	Mat T = (Mat_<double>(4, 4) <<
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 500,
+        0, 0, 0, 1);
+	Mat m_transfMatrix = A2 *T* A1;
+
+
+	warpPerspective(image_right,result,m_transfMatrix,Size(image_left.cols+image_right.cols,image_left.rows));
+	
+	Mat half(result,Rect(image_left.cols,0,image_left.cols,image_left.rows));
+	
+	image_left.copyTo(half);
+	imshow("stitching image",result);
+	
 }
 
 int main( int argc, char** argv ){
@@ -201,6 +243,10 @@ int main( int argc, char** argv ){
 	createTrackbar(tbarname6, wndname2, &dx2_, 2000, onTrackbar2);
 	onTrackbar2(0, 0);
     
+
+	imwrite("./image/right.jpg",destination2);
+	imwrite("./image/left.jpg",destination);
+	StitchImages();
 	cvWaitKey();
 
 	return 0;
