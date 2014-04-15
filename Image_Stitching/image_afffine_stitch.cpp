@@ -10,11 +10,14 @@ Mat img,img2;
 
 //---for left------------------------------
 int alpha_= 90., beta_= 180., gamma_=90.;
-int f_ = 456, dist_ = 210,dx_ =682, dy_= 0;
+int f_ =456, dist_ = 210, dx_ =682, dy_= 0;
+//int f_ =1065, dist_ =196, dx_ =1159, dy_= 4;
 
 //for right--------------------------------
 int alpha2_= 90., beta2_= 0., gamma2_=90.;
-int f2_ = 767, dist2_ = 772,dx2_ = 168, dy2_= 0;
+int f2_ = 767, dist2_ = 772, dx2_ = 168, dy2_= 0;
+//int f2_ = 767, dist2_ = 1112 , dx2_ = 224, dy2_= 0;
+
 
 Mat destination,destination2;
 char* wndname1 = "left image";
@@ -200,6 +203,7 @@ void StitchImages()
 	
 	image_left.copyTo(half);
 	imshow("stitching image",result);
+	//imwrite("./image/result.jpg",result);
 	
 }
 
@@ -232,7 +236,7 @@ int main( int argc, char** argv ){
 	createTrackbar(tbarname4, wndname1, &f_, 2000, onTrackbar1);
 	createTrackbar(tbarname5, wndname1, &dist_, 2000, onTrackbar1);
 	createTrackbar(tbarname6, wndname1, &dx_, 2000, onTrackbar1);
-	//createTrackbar(tbarname7, wndname1, &dy_, 2000);
+	//createTrackbar(tbarname7, wndname1, &dy_, 2000,onTrackbar1);
 	onTrackbar1(0, 0);
 
 
@@ -241,11 +245,12 @@ int main( int argc, char** argv ){
 	createTrackbar(tbarname4, wndname2, &f2_, 2000, onTrackbar2);
 	createTrackbar(tbarname5, wndname2, &dist2_, 2000, onTrackbar2);
 	createTrackbar(tbarname6, wndname2, &dx2_, 2000, onTrackbar2);
+	//createTrackbar(tbarname7, wndname2, &dy2_, 2000,onTrackbar2);
 	onTrackbar2(0, 0);
     
 
-	imwrite("./image/right.jpg",destination2);
-	imwrite("./image/left.jpg",destination);
+	//imwrite("./image/right.jpg",destination2);
+	//imwrite("./image/left.jpg",destination);
 	StitchImages();
 	cvWaitKey();
 
