@@ -14,3 +14,18 @@ surface(X,Y,Z,flipud(imgInd),...
     'CDataMapping','direct');
 colormap(map);
 view(-35,45);
+
+
+image = imread('r_undistorted_perspective.jpg');
+clf
+%imshow(image);
+r = @(x) sqrt(x(:,1).^2 + x(:,2).^2);
+w = @(x) atan2(x(:,2), x(:,1));
+
+f = @(x) [r(x).^2 .* cos(w(x)), r(x).^2 .* sin(w(x))];
+g = @(x, unused) f(x);
+
+tform3 = maketform('custom', 2, 2, [], g, []);
+image3 = imtransform(face, tform3, 'UData', [-1 1], 'VData', [-1 1], ...
+    'XData', [-1 1], 'YData', [-1 1]);
+imshow(image3)
