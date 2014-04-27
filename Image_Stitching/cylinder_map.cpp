@@ -48,18 +48,13 @@ IplImage* doZMBH(IplImage* in,int n)
 
 int main(int argc, char* argv[])
 {
-	IplImage* img=cvLoadImage("l_undistorted_perspective.jpg");//¼ÓÔØÍ¶Ó°Ç°Í¼Ïñ
-	cvNamedWindow("Í¶Ó°Ç°Í¼Ïñ",CV_WINDOW_AUTOSIZE);//´´½¨´°¿Ú
-	cvShowImage("Í¶Ó°Ç°Í¼Ïñ",img);//ÏÔÊ¾Í¶Ó°Ç°Í¼Ïñ
-	cvNamedWindow("Í¶Ó°ºóÍ¼Ïñ",CV_WINDOW_AUTOSIZE);
-	IplImage* out=doZMBH(img,4);
-	cvShowImage("Í¶Ó°ºóÍ¼Ïñ",out);
-	cvSaveImage("out3.jpg",out);
-    cvReleaseImage(&out);
-	cvReleaseImage(&img);//ÊÍ·ÅÄÚ´æ
-	cvWaitKey(0);
-	cvDestroyWindow("Í¶Ó°Ç°Í¼Ïñ");
-	cvDestroyWindow("Í¶Ó°ºóÍ¼Ïñ");//¹Ø±Õ´°¿Ú
+	Mat img=imread("l_undistorted_perspective.jpg",1);
+	imshow("raw image",img);
+	IplImage* src =new IplImage(img);
+	IplImage* out=doZMBH(src,4);
+	Mat imgMat(out);  
+	imshow("cylinder image",imgMat);
+	waitKey();
 	return 0;
 }
 
