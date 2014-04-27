@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/ZMTY.h
+math.h
+-
+stdio.h
+-
+
+/home/tairuichen/Desktop/sphere_map/ZMTY.cpp
+ZMTY.h
+/home/tairuichen/Desktop/sphere_map/ZMTY.h
+stdio.h
+-
+math.h
+-
+

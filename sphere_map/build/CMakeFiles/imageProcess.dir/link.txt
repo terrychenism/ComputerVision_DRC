@@ -1,0 +1,2 @@
+/usr/bin/ar cr libimageProcess.a  CMakeFiles/imageProcess.dir/ZMTY.cpp.o
+/usr/bin/ranlib libimageProcess.a

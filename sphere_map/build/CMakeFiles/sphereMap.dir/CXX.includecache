@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/ZMTY.h
+math.h
+-
+stdio.h
+-
+
+/home/tairuichen/Desktop/sphere_map/cylinder_map.cpp
+ZMTY.h
+/home/tairuichen/Desktop/sphere_map/ZMTY.h
+opencv2/highgui/highgui.hpp
+/home/tairuichen/Desktop/sphere_map/opencv2/highgui/highgui.hpp
+opencv2/imgproc/imgproc.hpp
+/home/tairuichen/Desktop/sphere_map/opencv2/imgproc/imgproc.hpp
+iostream
+-
+stdio.h
+-
+

@@ -1,0 +1,2 @@
+/home/tairuichen/Desktop/sphere_map/build/CMakeFiles/imageProcess.dir
+/home/tairuichen/Desktop/sphere_map/build/CMakeFiles/sphereMap.dir
