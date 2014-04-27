@@ -1,8 +1,10 @@
 #include "ZMTY.h"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <iostream>
 #include <stdio.h>
-#include <highgui.h>
-#include <cv.h>
-#include <cxcore.h>
+using namespace cv;
+using namespace std;
 
 IplImage* doZMBH(IplImage* in,int n)
 {
