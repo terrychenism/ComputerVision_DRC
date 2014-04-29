@@ -43,3 +43,20 @@ void ZMTY::ZMTYfCaculate2(double newx1,double newy1)
 	y=(y1-H/2)*sqrt((x-W/2)*(x-W/2)+f*f)/f+H/2;
 }
 /////////////////////////////////////////////////
+void ZMTY::ZMTYfCaculate3(double newx1,double newy1)
+{
+	x1=newx1;
+	y1=newy1;
+	// x=f*tan(asin(x1/f-sin(hfov/2)))+W/2;
+	// y=(y1-H/2)*sqrt((x-W/2)*(x-W/2)+f*f)/f+H/2;
+	double p = 1.8;
+	double dx = x - w/2;
+	double dy = y - H/2;
+	double r = sqrt(dx*dx + dy *dy);
+	double z = sqrt((w/2)*(w/2)-r*r);
+	double beta_x = (1-1/p)* asin(dx/(sqrt(dx*dx+z*z)));
+	double beta_y = (1-1/p)* asin(dy/(sqrt(dy*dx+z*z)));
+	x = x1-z*tan(beta_x);
+	y = y1-z*tan(beta_y);
+
+}
