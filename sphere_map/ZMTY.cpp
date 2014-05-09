@@ -71,3 +71,16 @@ void ZMTY::ZMTYfCaculate4(double newx1,double newy1)
 	y=f*(y1-yc)/sqrt((x-xc)*(x-xc)+f*f)+yc;	
 	
 }
+
+void ZMTY::ZMTYfCaculate5(double newx1,double newy1)
+{
+	x1=newx1;
+	y1=newy1;
+	double xc = W/2;
+	double yc = H/2;
+	x=f*tan(x1/f-hfov/2)+xc;
+	//y=(y1-yc)*sqrt((x-xc)*(x-xc)+f*f)/f+yc;	
+	double alpha = tan((y1-yc)/sqrt((x-xc)*(x-xc)+f*f));
+	y=f*alpha+yc;	
+	
+}
