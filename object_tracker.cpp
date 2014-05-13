@@ -26,7 +26,7 @@ main(int argc, char** argv)
 
   // Read in a sequence of images from disk as the video source
   const char* directory = "data/object";
-  const int start = 1;
+  const int start = 0;
   const int stop = 462;
   const int delta = 1;
   const char* prefix = "frame";
@@ -36,7 +36,7 @@ main(int argc, char** argv)
   char filename[] = "../data";
   // Some book-keeping
   bool is_tracker_initialized = false;
-  CvRect init_bb = cvRect(122, 58, 75, 97); // the initial tracking bounding box
+  CvRect init_bb = cvRect(380,350, 50,80); // the initial tracking bounding box
   /* const char* cascade_name = "haarcascade_frontalface_alt_tree.xml";
    const int minsz = 20;
    if( Tracker::facecascade.empty() )
