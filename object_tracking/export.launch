@@ -1,0 +1,6 @@
+<launch>
+  	<node pkg="rosbag" type="rosbag" name="rosbag" args="play -d 2 /home/tairuichen/Desktop/2014-05-13-15-16-43.bag"/>
+	<node name="extract" pkg="image_view" type="extract_images" respawn="false" output="screen" cwd="ROS_HOME">
+    <remap from="image" to="/multisense_sl/left/image_rect_color"/>
+  </node>
+</launch>
