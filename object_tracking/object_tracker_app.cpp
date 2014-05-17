@@ -18,7 +18,7 @@ main(int argc, char** argv)
 #else
   params.algorithm_ = cv::ObjectTrackerParams::CV_ONLINEMIL;
   params.num_classifiers_ = 50;
-  params.num_features_ = 250;
+  params.num_features_ = 400;
 #endif
 
   // Instantiate an object tracker
