@@ -1,8 +1,6 @@
 
 clear all
 dataPath = 'D:\data_seq\';
-% dataPath = 'F:\dropbox\Tracking\data\';
-%title = 'Car4';
 title = 'Debris';
 
 switch (title)
