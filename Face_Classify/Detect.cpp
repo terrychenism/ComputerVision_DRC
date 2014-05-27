@@ -70,44 +70,37 @@ int main( )
     Mat frame, frameCopy, image;  
     string inputName;     
     int mode;  
-	IplImage* standard2 = cvLoadImage("C:\\Users\\Terry\\Desktop\\face\\2.jpg",CV_LOAD_IMAGE_GRAYSCALE);
-    char dir[256] = "C:\\Users\\Terry\\Desktop\\face\\";
+	IplImage* standard2 = cvLoadImage("D:\\face\\2.jpg",CV_LOAD_IMAGE_GRAYSCALE);
+    char dir[256] = "D:\\face\\";
 	vector<Mat> images,testimages;  
     vector<int> labels,testlabels;
 	string mdir = dir;
 	
 	
-		char id[5];
-		mdir.append("test\\");
-		_itoa(1,id,10);
-		mdir.append(id);
-		const char* dd = mdir.c_str();
-		CStatDir state;
-		if(!state.SetInitDir(dd)){
-			puts("dir not exist");
-		}
-		vector<char*>file_vec= state.BeginBrowseFilenames("*.*");
-		for(int m = 0; m< file_vec.size();m++){
-			/*IplImage* test_img = cvLoadImage(file_vec[m],CV_LOAD_IMAGE_COLOR);
-			cvResize(test_img,standard2,CV_INTER_AREA);
-			Mat img_mat = cvarrToMat(standard2,true);
-			testimages.push_back(img_mat);
+	char id[5];
+	mdir.append("test\\");
+	_itoa(1,id,10);
+	mdir.append(id);
+	const char* dd = mdir.c_str();
+	CStatDir state;
+	if(!state.SetInitDir(dd)){
+		puts("dir not exist");
+	}
+	vector<char*>file_vec= state.BeginBrowseFilenames("*.*");
 
-			Mat test_img = cvLoadImage(file_vec[m],CV_LOAD_IMAGE_COLOR);
-			testimages.push_back(test_img);*/
-			IplImage* cur_img = cvLoadImage(file_vec[m],CV_LOAD_IMAGE_GRAYSCALE);
-			cvResize(cur_img,standard2,CV_INTER_AREA);
-			Mat cur_mat = cvarrToMat(standard2,true),des_mat;
-			cv::normalize(cur_mat,des_mat,0, 255, NORM_MINMAX, CV_8UC1);
-			cvSaveImage(file_vec[m],cvCloneImage(&(IplImage) des_mat));
-			if(m!=file_vec.size())
-			{
-					testimages.push_back(des_mat);
-					testlabels.push_back(m+1);
-			}
+	for(int m = 0; m< file_vec.size();m++){
+		IplImage* cur_img = cvLoadImage(file_vec[m],CV_LOAD_IMAGE_GRAYSCALE);
+		cvResize(cur_img,standard2,CV_INTER_AREA);
+		Mat cur_mat = cvarrToMat(standard2,true),des_mat;
+		cv::normalize(cur_mat,des_mat,0, 255, NORM_MINMAX, CV_8UC1);
+		cvSaveImage(file_vec[m],cvCloneImage(&(IplImage) des_mat));
 
-		
-		}
+		if(m!=file_vec.size())
+		{
+			testimages.push_back(des_mat);
+			testlabels.push_back(m+1);
+		}		
+	}
 
 			
     //togray, normalize and resize; load to images,labels,testimages,testlabels  
