@@ -148,8 +148,8 @@ int main(int argc, char * argv[]){
   // capture.open(video);
   fromfile = true;
 
-  char* bbfile = "../datasets/12_cup/init.txt";
-  readBB(bbfile);
+  // char* bbfile = "../datasets/12_cup/init.txt";
+  // readBB(bbfile);
   //gotBB = true;
 
 //   read_options(argc,argv,capture,fs);
@@ -223,16 +223,29 @@ GETBOUNDINGBOX:
   int detections = 1;
   CvScalar box_color = cv::Scalar(255, 255, 0);
 REPEAT:
-  while(!image.empty()){
-    //get frame
+  while(ros::ok()){
+
+        if(!camera.giveLeftColorImage(image))
+        {
+            ros::spinOnce();
+            continue;
+        }
+
+        if ( !image.empty() ) {
+
+
+                
+              
+
+
+
+
     frame = image;
     cvtColor(frame, current_gray, CV_RGB2GRAY);
     //Process Frame
     tld.processFrame(last_gray,current_gray,pts1,pts2,pbox,status,tl,bb_file);
     //Draw Points
     if (status){
-      //drawPoints(frame,pts1);
-      //drawPoints(frame,pts2,Scalar(0,255,0));
       drawBox(frame,pbox,box_color);
       detections++;
     }
@@ -246,6 +259,9 @@ REPEAT:
     printf("Detection rate: %d/%d\n",detections,frames);
     if (cvWaitKey(33) == 'q')
       break;
+
+
+  }
   }
   if (rep){
     rep = false;
