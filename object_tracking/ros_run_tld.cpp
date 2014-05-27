@@ -71,14 +71,14 @@ void print_help(char** argv){
 
 void read_options(int argc, char** argv,VideoCapture& capture,FileStorage &fs){
   for (int i=0;i<argc;i++){
-      // if (strcmp(argv[i],"-b")==0){
-      //     if (argc>i){
-      //         readBB(argv[i+1]);
-      //         gotBB = true;
-      //     }
-      //     else
-      //       print_help(argv);
-      // }
+      if (strcmp(argv[i],"-b")==0){
+          if (argc>i){
+              readBB(argv[i+1]);
+              gotBB = true;
+          }
+          else
+            print_help(argv);
+      }
       // if (strcmp(argv[i],"-s")==0){
       //     if (argc>i){
       //         //video = string(argv[i+1]);
@@ -125,15 +125,11 @@ int main(int argc, char * argv[]){
         //image = imread( "/home/tairuichen/Desktop/lena.jpg" );
         //cv::Mat image = cv::imread("debris.jpg");
         if ( image.empty() ) {
-                std::cout << "unable to load an input image\n";
+           std::cout << "unable to load an input image\n";
                 
-                return -1;
-               }
-         
+            return -1;
+        }
 
-        // std::cout << "image: " << image.rows << ", " << image.cols << std::endl;
-        // assert(image.type() == CV_8UC3);
-        // cv::imshow("image", image);
         
 
   // VideoCapture capture;
@@ -141,7 +137,7 @@ int main(int argc, char * argv[]){
   FileStorage fs;
 
   //Read options
-  char *para_file = "../parameters.yml";
+  char *para_file = "src/perception_tracking/parameters.yml";
   fs.open(para_file, FileStorage::READ);
 
   // video = "../datasets/12_cup/output.mpg";
@@ -176,9 +172,7 @@ int main(int argc, char * argv[]){
       cvtColor(frame, last_gray, CV_RGB2GRAY);
       frame.copyTo(first);
   }
-   //  std::cout << "image: " << last_gray.rows << ", " << last_gray.cols << std::endl;
-   // assert(last_gray.type() == CV_8UC3);
-   // cv::imshow("image", last_gray);
+
 //    else{
 //       capture.set(CV_CAP_PROP_FRAME_WIDTH,340);
 //       capture.set(CV_CAP_PROP_FRAME_HEIGHT,240);
@@ -208,11 +202,13 @@ GETBOUNDINGBOX:
   //Remove callback
   cvSetMouseCallback( "Tracking", NULL, NULL );
   printf("Initial Bounding Box = x:%d y:%d h:%d w:%d\n",box.x,box.y,box.width,box.height);
+
   //Output file
-  FILE  *bb_file = fopen("bounding_boxes.txt","w");
+  FILE  *bb_file = fopen("src/perception_tracking/bounding_boxes.txt","w");
+  
   //TLD initialization
   tld.init(last_gray,box,bb_file);
-
+  ROS_INFO("agsagfsasasfajsifjlasghkdjshgdkasjgladsjgdagdkasgjdasgjkldasgjasgagldkasjgdskagj"); 
   ///Run-time
   Mat current_gray;
   BoundingBox pbox;
@@ -224,7 +220,7 @@ GETBOUNDINGBOX:
   CvScalar box_color = cv::Scalar(255, 255, 0);
 REPEAT:
   while(ros::ok()){
-
+ 
         if(!camera.giveLeftColorImage(image))
         {
             ros::spinOnce();
@@ -235,7 +231,7 @@ REPEAT:
 
 
                 
-              
+           
 
 
 
