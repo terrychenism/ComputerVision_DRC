@@ -1,0 +1,11 @@
+<launch>
+  <node name="perception_tracking_publisher" pkg="perception_tracking" type="tracking" output="screen">
+
+<param name="image_name" value="/multisense_sl/left/image_rect_color" />
+<param name="init_bb" value="$(find perception_tracking)/src/init.txt"/>
+<param name="output_image_topic" value="/multisense_sl/left/image_tracking"/>
+<param name="box_file" value="$(find perception_tracking)/bounding_boxes.txt"/>
+<param name="config_file" value="$(find perception_tracking)/parameters.yml"/>
+
+  </node>
+</launch>
