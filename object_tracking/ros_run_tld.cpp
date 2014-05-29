@@ -144,9 +144,9 @@ int main(int argc, char * argv[]){
   // capture.open(video);
   fromfile = true;
 
-  // char* bbfile = "../datasets/12_cup/init.txt";
-  // readBB(bbfile);
-  //gotBB = true;
+  char* bbfile = "src/perception_tracking/datasets/12_cup/init.txt";
+  readBB(bbfile);
+  gotBB = true;
 
 //   read_options(argc,argv,capture,fs);
   //Init camera
@@ -200,7 +200,7 @@ GETBOUNDINGBOX:
       goto GETBOUNDINGBOX;
   }
   //Remove callback
-  cvSetMouseCallback( "Tracking", NULL, NULL );
+  //cvSetMouseCallback( "Tracking", NULL, NULL );
   printf("Initial Bounding Box = x:%d y:%d h:%d w:%d\n",box.x,box.y,box.width,box.height);
 
   //Output file
@@ -208,7 +208,7 @@ GETBOUNDINGBOX:
   
   //TLD initialization
   tld.init(last_gray,box,bb_file);
-  ROS_INFO("agsagfsasasfajsifjlasghkdjshgdkasjgladsjgdagdkasgjdasgjkldasgjasgagldkasjgdskagj"); 
+  // ROS_INFO("agsagfsasasfajsifjlasghkdjshgdkasjgladsjgdagdkasgjdasgjkldasgjasgagldkasjgdskagj"); 
   ///Run-time
   Mat current_gray;
   BoundingBox pbox;
