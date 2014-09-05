@@ -26,3 +26,11 @@ roslaunch wrecs_simulator_launch drc_practice_task_3.launch
 
 
 =============================
+roslaunch wrecs_simulator_launch drc_practice_task_3.launch
+
+tairuichen@drc-dev-2:~$ rosrun rviz rviz 
+
+tairuichen@drc-dev-2:~$ roslaunch wrecs_bringup offline.launch
+
+tairuichen@drc-dev-2:~$ roslaunch perception_detect_debris debri_detect_offline.launch 
+
