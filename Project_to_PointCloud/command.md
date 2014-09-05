@@ -21,4 +21,8 @@ roslaunch perception_laser_assembler basic_assembler.launch
 
 tairuichen@Atlas:~$ rosrun drc_gui wgui 
 
+
+roslaunch wrecs_simulator_launch drc_practice_task_3.launch
+
+
 =============================
