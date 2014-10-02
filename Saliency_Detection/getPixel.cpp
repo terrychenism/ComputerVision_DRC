@@ -1,3 +1,4 @@
+// http://stackoverflow.com/questions/12512632/opencv-matrix-values-display
 unsigned int *input = (unsigned int*)(fgy.data);
 	int i,j,r,g,b;
 	for(int i = 0;i < fgy.cols;i++){
