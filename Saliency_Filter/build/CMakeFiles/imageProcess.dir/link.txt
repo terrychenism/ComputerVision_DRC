@@ -1,0 +1,2 @@
+/usr/bin/ar cr libimageProcess.a  CMakeFiles/imageProcess.dir/filter.cpp.o CMakeFiles/imageProcess.dir/saliency.cpp.o CMakeFiles/imageProcess.dir/superpixel.cpp.o
+/usr/bin/ranlib libimageProcess.a

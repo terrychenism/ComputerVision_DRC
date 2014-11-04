@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/superpixel.h
+opencv2/opencv.hpp
+-
+
+/home/tairuichen/Desktop/Saliency_Filter/test_superpixel.cpp
+superpixel.h
+/home/tairuichen/Desktop/Saliency_Filter/superpixel.h
+cstdio
+-
+

@@ -1,0 +1,3 @@
+/home/tairuichen/Desktop/Saliency_Filter/build/CMakeFiles/imageProcess.dir
+/home/tairuichen/Desktop/Saliency_Filter/build/CMakeFiles/saliency.dir
+/home/tairuichen/Desktop/Saliency_Filter/build/CMakeFiles/superpixel.dir

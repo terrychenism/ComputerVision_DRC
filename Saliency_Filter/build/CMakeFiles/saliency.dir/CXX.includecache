@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/saliency.h
+superpixel.h
+../include/superpixel.h
+
+../include/superpixel.h
+opencv2/opencv.hpp
+-
+
+/home/tairuichen/Desktop/Saliency_Filter/test_saliency.cpp
+saliency.h
+/home/tairuichen/Desktop/Saliency_Filter/saliency.h
+cstdio
+-
+time.h
+-
+
