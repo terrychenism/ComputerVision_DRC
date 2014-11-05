@@ -1,89 +1,50 @@
-/* Copyright (C) 2012 Christian Lutz, Thorsten Engesser
- * 
- * This file is part of motld
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#ifndef NNCLASSIFIER_H
-#define NNCLASSIFIER_H
-
-//#include <iostream>
-//#include <fstream>
 #include <vector>
 #include "Matrix.h"
 #include "Histogram.h"
 
-/// Data structure representing nearest neighbor patches with color histograms
+
 class NNPatch
 {
 public:
-  /// The patch (will be normalized to zero mean)
+  
   Matrix patch;
-  /// The average of the grayscale values (to enable reconstruction)
   float avg;
-  /// Saves the squared norm of the grayscale values to speed up computation later
   float norm2;
-  /// A normalized color histogram or NULL if not used
   float* histogram;
-  /// Default (empty) constructor
+
   NNPatch() : patch(), avg(0), norm2(1), histogram(NULL){}
-  /// Copy constructor
+ 
   NNPatch(const NNPatch& copyFrom);
-  /// Constructor providing only a patch
+  ~NNPatch();
   NNPatch(const Matrix& curPatch);  
-  /// Constructor creating the color histogram
+
   NNPatch(const Matrix& curPatch, const ObjectBox& bbox, 
           const unsigned char * rgb = NULL, const int w = 0, const int h = 0);
-  /// Constructor extracting the patch and the color histogram out of the image
+
   NNPatch(const ObjectBox& bbox, const Matrix& curImage, const int patchSize,
           const unsigned char * rgb = NULL, const int w = 0, const int h = 0);
-  /// Constructor for loading from file
+
   NNPatch(std::ifstream & inputStream, const int patchSize);
-  /// Destructor
-  ~NNPatch();
-  /// Copy operator
   NNPatch& operator=(const NNPatch& copyFrom);
-  /// Method for saving to file
+
   void saveToStream(std::ofstream & outputStream) const;
 };
 
-/** @brief The nearest neighbor classifier is invoked at the top level to evaluate detections.
- */
+
 class NNClassifier
 {
 public:
-  /// Constructor
   NNClassifier(int width, int height, int patchSize, bool useColor = true, bool allowFastChange = false);
-  /// Constructor for loading from file
   NNClassifier(std::ifstream & inputStream);
-  /// Returns the confidence of a given patch with respect to a certain class.
   double getConf(const NNPatch& patch, int objId = 0, bool conservative = false) const;
-  /// Returns the confidence of a given patch while subsequently computing and saving the color histogram if needed.
   double getConf(NNPatch& patch, int objId, bool conservative,
                   const ObjectBox& bbox, const unsigned char * rgb, int w, int h) const;
-  /// Trains a new patch to the classifier if it is considered "new" enough.
   bool trainNN(const NNPatch& patch, int objId = 0, bool positive = true, bool tmp = false);
-  /// Initializes a new object class with the given patch.
   void addObject(const NNPatch& patch);
-  /// Returns a pointer to positive patches (intended for drawing).
   const std::vector<std::vector<NNPatch> > * getPosPatches() const;
-  /// Returns a pointer to negative patches (intended for drawing).
   const std::vector<NNPatch> * getNegPatches() const;
-  /// Removes previously added warps (rotated patches) from positive list.
   void removeWarps();
-  /// Saves the classifier (i.e. the patches) to file.
+
   void saveToStream(std::ofstream & outputStream) const;
   
 private:
@@ -101,12 +62,6 @@ private:
 };
 
 
-/**************************************************************************************************
- * IMPLEMENTATION                                                                                 *
- **************************************************************************************************/
- 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// NNPatch
  
 NNPatch::NNPatch(const NNPatch& copyFrom)
 {
@@ -207,8 +162,7 @@ NNPatch& NNPatch::operator=(const NNPatch& copyFrom)
   return *this;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// NNClassifier
+
 
 Histogram * NNClassifier::ivHistogram = Histogram::getInstance();
 
@@ -261,25 +215,18 @@ void NNClassifier::addObject(const NNPatch& patch)
   ivPosPatches.push_back(std::vector<NNPatch>());
   ivPosPatches[ivPosPatches.size() - 1].push_back(patch);
   ivWarpIndices.push_back(0);
-  // remove negative patches that are too similar to this new object
+  // remove negative patches too similar 
   for(int i = ivNegPatches.size() - 1; i >= 0; i--)
   {  
     double ncc = crossCorr(ivNegPatches[i].patch.data(), patch.patch.data(), 
                            ivNegPatches[i].norm2 * patch.norm2);
     if(ncc > 0.8){
       ivNegPatches.erase(ivNegPatches.begin() + i);    
-      #if DEBUG
-      std::cout << "removed negative patch " << i << " (ncc = " << ncc << ")" << std::endl;
-      #endif
     }
   }
 }
 
-/// @param patch the patch that shall be learned
-/// @param objId id of the object class to which the patch should be added
-/// @param positive @b true if element of this class, @b false if not (background patch)
-/// @param tmp @b true if this is a temporary (warped) patch
-/// @returns @b true if the patch was added.
+
 bool NNClassifier::trainNN(const NNPatch& patch, int objId, bool positive, bool tmp)
 {
   double conf = getConf(patch, positive ? objId : -1, false);
@@ -301,9 +248,7 @@ bool NNClassifier::trainNN(const NNPatch& patch, int objId, bool positive, bool 
   return false;
 }
 
-/// @param patch the patch that shall be evaluated
-/// @param objId Id of the class to compare or -1 for comparison to negative (background) patches
-/// @param conservative If @b true earlier positive patches are weighted more.
+
 double NNClassifier::getConf(const NNPatch& patch, int objId, bool conservative) const
 {
   if(ivUseColor)
@@ -312,8 +257,7 @@ double NNClassifier::getConf(const NNPatch& patch, int objId, bool conservative)
     if(objId < 0 || conf < 0.58 || patch.histogram == NULL || ivPosPatches[objId][0].histogram == NULL)
       return conf;
     double colorCons = cmpHistograms(ivPosPatches[objId][0].histogram, patch.histogram);
-        //Histogram::compareColorDistribution(ivPosPatches[objId][0].histogram, patch.histogram);
-    //return std::min(colorCons, conf);
+
     if(colorCons < 0.75)
       return conf * 0.8;
     return conf + (1-conf) * 0.4;
@@ -382,7 +326,7 @@ double NNClassifier::getConf(const float* patch, float norm2, int objId, bool co
         negNCC = negNCCs[i];
     delete[] negNCCs;
   }else
-    negNCC = 0.3; //hack! there should always be a negative example from initialization
+    negNCC = 0.3; 
     
   if(objId < 0)
     return negNCC;
@@ -438,4 +382,3 @@ void NNClassifier::saveToStream(std::ofstream & outputStream) const
   }
 }
 
-#endif //NNCLASSIFIER_H

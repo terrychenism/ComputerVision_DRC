@@ -1,21 +1,3 @@
-/* Copyright (C) 2012 Christian Lutz, Thorsten Engesser
- * 
- * This file is part of motld
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #ifndef HISTOGRAM_H
 #define HISTOGRAM_H
 
@@ -30,20 +12,18 @@
 #define NUM_BINS 7
 #define GRAY_THRESHOLD 0.125
 
-/// ultra discrete color histograms intended to be used as (weak) classifier asset
 class Histogram {
 public:
-  /// get instance of histogram generating singleton
   static Histogram * getInstance();
-  /// creates histogram from whole image
+
   float * getColorDistribution(const unsigned char * const rgb, const int & size) const;
-  /// creates histogram from whole image
   float * getColorDistribution(const unsigned char * const rgb, const int & width, const int & height) const;
-  /// creates histogram from image section
+
   float * getColorDistribution(const unsigned char * const rgb, const int & width, const int & height, const ObjectBox & box) const;
-  /// creates a debug image with colors which are maped to same histogram value
+
   unsigned char * debugImage(const int & bin, int & sideLength) const;
-  /// compares two histograms by performing a normalized chi-squared test on their average
+
+
   static float compareColorDistribution(const float * const hist1, const float * const hist2);
   
 private:
@@ -80,12 +60,11 @@ Histogram::Histogram()
 #pragma omp parallel for
   for (int c = 0; c < 4096; ++c)
   {
-    // determine color voxel
+
     unsigned char red   = (c >> 8) & 15;
     unsigned char green = (c >> 4) & 15;
     unsigned char blue  =  c       & 15;
-    
-    // calculate r/g/b value in center of color voxel
+
     float r = (red   + 0.5) / 16.;
     float g = (green + 0.5) / 16.;
     float b = (blue  + 0.5) / 16.;
@@ -136,8 +115,6 @@ float * Histogram::getColorDistribution(const unsigned char * const rgb, const i
     prebinning[i] /= size;
   }
   
-  // 0  1  2  3  4  5  6  7  8  9 10 11 12
-  //    1     2     3     4     5     6
   
   result[0] = prebinning[0];
   prebinning[0] = prebinning[12];

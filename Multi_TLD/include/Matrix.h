@@ -1,25 +1,3 @@
-/* Copyright (C) 2012 Christian Lutz, Thorsten Engesser
- * 
- * This file is part of motld
- * 
- * Some parts of this implementation are based
- * on materials to a lecture by Thomas Brox
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 #ifndef MATRIX_H
 #define MATRIX_H
 
@@ -34,11 +12,8 @@
 #include <stack>
 #include <vector>
 #include <algorithm>
-#ifdef GNU_COMPILER
-  #include <strstream>
-#else
-  #include <sstream>
-#endif
+#include <sstream>
+
 
 #ifndef PI
 #define PI 3.1415926536
@@ -55,33 +30,23 @@
 #define MAX(a,b) (a > b ? a : b)
 #endif
 
-/// datastructure linking objects to their (possible) location
 struct ObjectBox
-{
-  /// x-component of top left coordinate
+{ 
   float x;
-  /// y-component of top left coordinate
   float y;
-  /// width of the image section
   float width;
-  /// height of the image section
   float height;
-  /// identifies object, which is represented by ObjectBox
   int objectId;
 };
 
-/// datastructure for images (greyscale or single color)
+
 class Matrix {
 public:
-  /// Default constructor
   inline Matrix();
-  /// Constructor
+
   inline Matrix(const int width, const int height);
-  /// Copy constructor
   Matrix(const Matrix& copyFrom);
-  /// Constructor with implicit filling
   Matrix(const int width, const int height, const float value);
-  /// Destructor
   virtual ~Matrix();
 
   /// fills the matrix from a char-array (size has to be already set)
@@ -199,11 +164,6 @@ std::ostream& operator<<(std::ostream& aStream, const Matrix& aMatrix);
 /// Outputs an RGB image in PPM format
 void writePPM(const char* filename, const Matrix& rMatrix, const Matrix& gMatrix, const Matrix& bMatrix);
 
-
-/**************************************************************************************************
- * IMPLEMENTATION                                                                                 *
- **************************************************************************************************/ 
-
 inline Matrix::Matrix()
 {
 
@@ -286,9 +246,9 @@ void Matrix::fromRGB(const Matrix& rMatrix, const Matrix& gMatrix, const Matrix&
 
 void Matrix::fromRGB(unsigned char * source)
 {
-  //delete [] ivData;
+
   int wholeSize = ivWidth*ivHeight;
-  //ivData = new float[wholeSize];
+
   unsigned char * green = source + wholeSize;
   unsigned char * blue = green + wholeSize;
   for (int i = 0; i < wholeSize; ++i)
@@ -320,14 +280,12 @@ void Matrix::derivativeY(Matrix& result) const
        result(x,y) = (ivData[x + (y+1)*ivWidth] - ivData[x + (y-1)*ivWidth]); // * 0.5;   
 }
 
-/// @details Applied filter: [-3,0,3; -10,0,10; -3,0,3] = [-1,0,1] x [3;10;3]
 void Matrix::scharrDerivativeX(Matrix& result) const
 {
   if(ivWidth * ivHeight == 0)return;
   Matrix tmp;
-  this->derivativeX(tmp); //apply [-1,0,1]
+  this->derivativeX(tmp); 
   result.setSize(ivWidth, ivHeight);
-  //apply [3;10;3]
   for(int x=0; x<ivWidth; ++x)
   {
     result(x,0) = 13 * tmp(x,0) + 3 * tmp(x,1);
