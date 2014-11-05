@@ -284,8 +284,7 @@ void FromRGB(Matrix& maRed, Matrix& maGreen, Matrix& maBlue)
     curImage->imageData[3*i+1] = maGreen.data()[i];
     curImage->imageData[3*i+0] = maBlue.data()[i];
   }
-  //at this place you could save the images using
-  //cvSaveImage(filename, curImage);
+
   if(mouseMode == MOUSE_MODE_MARKER)
   {
     CvPoint pt1; pt1.x = mouseBox.x; pt1.y = mouseBox.y;
